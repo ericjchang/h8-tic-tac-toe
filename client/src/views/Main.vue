@@ -20,40 +20,40 @@
       </header>
 
       <main class="board" v-if="!winner">
-        <div v-if="position1 === 'A'" class="cell circle"></div>
-        <div v-else-if="position1 === 'B'" class="cell cross"></div>
+        <div v-if="pos1 === 'A'" class="cell circle"></div>
+        <div v-else-if="pos1 === 'B'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(1)"></div>
 
-        <div v-if="position2 === 'A'" class="cell circle"></div>
-        <div v-else-if="position2 === 'B'" class="cell cross"></div>
+        <div v-if="pos2 === 'A'" class="cell circle"></div>
+        <div v-else-if="pos2 === 'B'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(2)"></div>
 
-        <div v-if="position3 === 'A'" class="cell circle"></div>
-        <div v-else-if="position3 === 'B'" class="cell cross"></div>
+        <div v-if="pos3 === 'A'" class="cell circle"></div>
+        <div v-else-if="pos3 === 'B'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(3)"></div>
 
-        <div v-if="position4 === 'A'" class="cell circle"></div>
-        <div v-else-if="position4 === 'B'" class="cell cross"></div>
+        <div v-if="pos4 === 'A'" class="cell circle"></div>
+        <div v-else-if="pos4 === 'B'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(4)"></div>
 
-        <div v-if="position5 === 'A'" class="cell circle"></div>
-        <div v-else-if="position5 === 'B'" class="cell cross"></div>
+        <div v-if="pos5 === 'A'" class="cell circle"></div>
+        <div v-else-if="pos5 === 'B'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(5)"></div>
 
-        <div v-if="position6 === 'A'" class="cell circle"></div>
-        <div v-else-if="position6 === 'B'" class="cell cross"></div>
+        <div v-if="pos6 === 'A'" class="cell circle"></div>
+        <div v-else-if="pos6 === 'B'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(6)"></div>
 
-        <div v-if="position7 === 'A'" class="cell circle"></div>
-        <div v-else-if="position7 === 'B'" class="cell cross"></div>
+        <div v-if="pos7 === 'A'" class="cell circle"></div>
+        <div v-else-if="pos7 === 'B'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(7)"></div>
 
-        <div v-if="position8 === 'A'" class="cell circle"></div>
-        <div v-else-if="position8 === 'B'" class="cell cross"></div>
+        <div v-if="pos8 === 'A'" class="cell circle"></div>
+        <div v-else-if="pos8 === 'B'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(8)"></div>
 
-        <div v-if="position9 === 'A'" class="cell circle"></div>
-        <div v-else-if="position9 === 'B'" class="cell cross"></div>
+        <div v-if="pos9 === 'A'" class="cell circle"></div>
+        <div v-else-if="pos9 === 'B'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(9)"></div>
       </main>
 
@@ -113,16 +113,16 @@ export default {
   },
   computed: {
     ...mapState([
-      "userrun",
-      "position1",
-      "position2",
-      "position3",
-      "position4",
-      "position5",
-      "position6",
-      "position7",
-      "position8",
-      "position9",
+      "userRun",
+      "pos1",
+      "pos2",
+      "pos3",
+      "pos4",
+      "pos5",
+      "pos6",
+      "pos7",
+      "pos8",
+      "pos9",
       "winner"
     ])
   },
@@ -143,7 +143,8 @@ export default {
     },
     choose(pick) {
       console.log(pick);
-      if (this.userrun % 2 === 0 && localStorage.userid % 2 === 0) {
+      if (this.userRun % 2 === 0) {
+        console.log("masuk genap");
         axios({
           method: "PUT",
           url: "http://localhost:3000/data",
@@ -156,6 +157,7 @@ export default {
           }
         })
           .then(result => {
+            console.log("Put success");
             this.fetchposition();
             var socket = io.connect("http://localhost:3000");
             socket.emit("refresh");
@@ -163,7 +165,8 @@ export default {
           .catch(err => {
             console.log(err);
           });
-      } else if (this.userrun % 2 !== 0 && localStorage.userid % 2 !== 0) {
+      } else if (this.userRun % 2 !== 0) {
+        console.log("masuk ganjil");
         axios({
           method: "PUT",
           url: "http://localhost:3000/data",
@@ -176,6 +179,7 @@ export default {
           }
         })
           .then(result => {
+            console.log("Put success ganjil");
             this.fetchposition();
             var socket = io.connect("http://localhost:3000");
             socket.emit("refresh");
@@ -188,12 +192,12 @@ export default {
   },
   created() {
     this.fetchposition();
-    if (this.userrun % 2 === 0) {
+    if (this.userRun % 2 === 0) {
       console.log("GILIRAN PEMAIN GANJIL");
     } else {
       console.log("GILIRAN PEMAIN GENAP");
     }
-    console.log("data dari main", this.position1, this.position2);
+    // console.log("data dari main", this.position1, this.position2);
 
     io.connect("http://localhost:3000").on("send-message", data => {
       console.log("kumpulan chat message diterima");

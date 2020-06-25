@@ -34,7 +34,7 @@ export default {
     login() {
       axios({
         method: "POST",
-        url: "http://localhost:3000/users/signup",
+        url: "http://localhost:3000/signup",
         data: {
           username: this.username
         }
