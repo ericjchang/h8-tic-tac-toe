@@ -26,8 +26,8 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    players: {
-      type: DataTypes.STRING,
+    room: {
+      type: DataTypes.INTEGER,
       allowNull: false,
       validate : {
         notNull: {
