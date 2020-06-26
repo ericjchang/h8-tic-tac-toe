@@ -154,35 +154,40 @@ export default new Vuex.Store({
           p2.sort();
 
           if (p1.length > 2) {
-            p1.slice(Math.max(p1.length - 2, 1));
-
-            for (let l = 0; l <= 7; l++) {
-              console.log(winningConditions[l][0]);
-              if (
-                p1[0] === winningConditions[l][0] &&
-                p1[1] === winningConditions[l][1] &&
-                p1[2] === winningConditions[l][2]
-              ) {
-                context.commit('SET_WINNER', `${result.data.users[0].username} Win !`);
-                if (this.winner) {
-                  setTimeout(() => {
-                    localStorage.clear();
-                  }, 5000);
-                }
+            for (let i = 0; i < p1.length; i++) {
+              let temp = [];
+              for (let j = 0; j < p1.length; j++) {
+                if (j !== i) temp.push(p1[j]);
               }
+              winningConditions.forEach(el => {
+                if (JSON.stringify(el) == JSON.stringify(temp)) {
+                  context.commit('SET_WINNER', `${result.data.users[0].username} Win !`);
+                  if (this.winner) {
+                    setTimeout(() => {
+                      localStorage.clear();
+                    }, 5000);
+                  }
+                }
+              });
             }
           }
 
           if (p2.length > 2) {
-            p2.slice(Math.max(p2.length - 2, 1));
-            for (let l = 0; l <= 7; l++) {
-              if (
-                p2[0] === winningConditions[l][0] &&
-                p2[1] === winningConditions[l][1] &&
-                p2[2] === winningConditions[l][2]
-              ) {
-                context.commit('SET_WINNER', `${result.data.users[1].username} Win !`);
+            for (let i = 0; i < p2.length; i++) {
+              let temp = [];
+              for (let j = 0; j < p2.length; j++) {
+                if (j !== i) temp.push(p2[j]);
               }
+              winningConditions.forEach(el => {
+                if (JSON.stringify(el) == JSON.stringify(temp)) {
+                  context.commit('SET_WINNER', `${result.data.users[1].username} Win !`);
+                  if (this.winner) {
+                    setTimeout(() => {
+                      localStorage.clear();
+                    }, 5000);
+                  }
+                }
+              });
             }
           }
 
