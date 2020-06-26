@@ -142,7 +142,7 @@ export default {
         name: localStorage.username,
         message: this.message,
       };
-      var socket = io.connect('http://localhost:3000');
+      var socket = io.connect('https://murmuring-citadel-44052.herokuapp.com');
       socket.emit('send-message', messageData);
       this.message = '';
     },
@@ -153,7 +153,7 @@ export default {
 
       // Axios({
       //   method: 'DELETE',
-      //   url: 'http://localhost:3000/',
+      //   url: 'https://murmuring-citadel-44052.herokuapp.com/',
       //   data: { id: localStorage.userid },
       // })
       //   .then(result => {
@@ -167,7 +167,7 @@ export default {
       if (this.userIndex % 2 === 0 && +localStorage.userid % 2 === 0) {
         axios({
           method: 'PUT',
-          url: 'http://localhost:3000/data',
+          url: 'https://murmuring-citadel-44052.herokuapp.com/data',
           headers: {
             room: localStorage.room,
             username: localStorage.username,
@@ -178,7 +178,7 @@ export default {
         })
           .then(result => {
             this.refreshPosition();
-            var socket = io.connect('http://localhost:3000');
+            var socket = io.connect('https://murmuring-citadel-44052.herokuapp.com');
             socket.emit('refresh');
           })
           .catch(err => {
@@ -187,7 +187,7 @@ export default {
       } else if (this.userIndex % 2 !== 0 && +localStorage.userid % 2 !== 0) {
         axios({
           method: 'PUT',
-          url: 'http://localhost:3000/data',
+          url: 'https://murmuring-citadel-44052.herokuapp.com/data',
           headers: {
             room: localStorage.room,
             username: localStorage.username,
@@ -198,7 +198,7 @@ export default {
         })
           .then(result => {
             this.refreshPosition();
-            var socket = io.connect('http://localhost:3000');
+            var socket = io.connect('https://murmuring-citadel-44052.herokuapp.com');
             socket.emit('refresh');
           })
           .catch(err => {
@@ -211,11 +211,11 @@ export default {
     // method from Vuex
     this.refreshPosition();
 
-    io.connect('http://localhost:3000').on('send-message', data => {
+    io.connect('https://murmuring-citadel-44052.herokuapp.com').on('send-message', data => {
       this.chatMessages = data;
     });
 
-    io.connect('http://localhost:3000').on('refresh_client', () => {
+    io.connect('https://murmuring-citadel-44052.herokuapp.com').on('refresh_client', () => {
       this.refreshPosition();
     });
 

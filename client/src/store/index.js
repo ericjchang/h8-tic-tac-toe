@@ -57,7 +57,7 @@ export default new Vuex.Store({
     refreshPosition(context, payload) {
       Axios({
         method: 'POST',
-        url: 'http://localhost:3000/data',
+        url: 'https://murmuring-citadel-44052.herokuapp.com/data',
         data: {
           room: localStorage.room,
         },

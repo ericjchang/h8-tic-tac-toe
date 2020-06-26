@@ -43,7 +43,7 @@ export default {
     login() {
       axios({
         method: 'POST',
-        url: 'http://localhost:3000/signup',
+        url: 'https://murmuring-citadel-44052.herokuapp.com/signup',
         data: {
           username: this.username,
         },
