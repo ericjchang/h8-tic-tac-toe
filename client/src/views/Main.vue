@@ -59,7 +59,7 @@
 
       <h1 v-else-if="winner">{{ winner }} Win!</h1>
 
-      <footer class="scores hide">
+      <footer class="scores">
         <div>
           <span></span>
           <ul>
@@ -113,7 +113,7 @@ export default {
   },
   computed: {
     ...mapState([
-      "userRun",
+      "userIndex",
       "pos1",
       "pos2",
       "pos3",
@@ -127,7 +127,7 @@ export default {
     ])
   },
   methods: {
-    ...mapActions(["fetchposition"]),
+    ...mapActions(["refreshPosition"]),
     sendMessage() {
       console.log("chat message submitted");
       const messageData = {
@@ -140,10 +140,14 @@ export default {
     },
     play() {
       localStorage.clear();
+
+      /*
+       TODO : Axios method delete room 
+       */
     },
     choose(pick) {
       console.log(pick);
-      if (this.userRun % 2 === 0) {
+      if (this.userIndex % 2 === 0) {
         console.log("masuk genap");
         axios({
           method: "PUT",
@@ -157,16 +161,14 @@ export default {
           }
         })
           .then(result => {
-            console.log("Put success");
-            this.fetchposition();
+            this.refreshPosition();
             var socket = io.connect("http://localhost:3000");
             socket.emit("refresh");
           })
           .catch(err => {
             console.log(err);
           });
-      } else if (this.userRun % 2 !== 0) {
-        console.log("masuk ganjil");
+      } else if (this.userIndex % 2 !== 0) {
         axios({
           method: "PUT",
           url: "http://localhost:3000/data",
@@ -179,8 +181,7 @@ export default {
           }
         })
           .then(result => {
-            console.log("Put success ganjil");
-            this.fetchposition();
+            this.refreshPosition();
             var socket = io.connect("http://localhost:3000");
             socket.emit("refresh");
           })
@@ -191,21 +192,21 @@ export default {
     }
   },
   created() {
-    this.fetchposition();
-    if (this.userRun % 2 === 0) {
+    // method from Vuex
+    this.refreshPosition();
+    if (this.userIndex % 2 === 0) {
       console.log("GILIRAN PEMAIN GANJIL");
     } else {
       console.log("GILIRAN PEMAIN GENAP");
     }
-    // console.log("data dari main", this.position1, this.position2);
 
     io.connect("http://localhost:3000").on("send-message", data => {
-      console.log("kumpulan chat message diterima");
+      console.log("fetch chat success");
       this.chatMessages = data;
     });
 
     io.connect("http://localhost:3000").on("refresh_client", () => {
-      this.fetchposition();
+      this.refreshPosition();
     });
 
     if (localStorage.username) {
@@ -214,10 +215,6 @@ export default {
       this.islogin = false;
       this.$router.push("/");
     }
-
-    // io.on('connected', function (username) {
-    //   this.msg = 'User ' + username + '  has joined'
-    // })
   }
 };
 </script>

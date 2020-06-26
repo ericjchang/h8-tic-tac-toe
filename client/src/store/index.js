@@ -15,7 +15,7 @@ export default new Vuex.Store({
     pos7: "",
     pos8: "",
     pos9: "",
-    userRun: 0,
+    userIndex: 0,
     winner: ""
   },
   mutations: {
@@ -47,14 +47,14 @@ export default new Vuex.Store({
       state.pos9 = newPos;
     },
     SET_USER_RUN(state, user) {
-      state.userRun = user;
+      state.userIndex = user;
     },
     SET_WINNER(state, user) {
       state.winner = user;
     }
   },
   actions: {
-    fetchposition(context, payload) {
+    refreshPosition(context, payload) {
       console.log("fetching now!");
       Axios({
         method: "POST",
