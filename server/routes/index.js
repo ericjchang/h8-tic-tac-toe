@@ -7,6 +7,9 @@ router.get('/', (req, res) => {
     })
 })
 router.post('/signup', gameController.signup)
+router.post('/data', gameController.findData)
+router.put('/data', gameController.updateData)
+router.delete('/data', gameController.delete)
 
 
 module.exports = router
