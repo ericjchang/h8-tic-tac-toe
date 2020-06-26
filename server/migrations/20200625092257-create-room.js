@@ -8,13 +8,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      username: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true
       },
-      players: {
-        type: Sequelize.STRING,
+      room: {
+        type: Sequelize.INTEGER,
         allowNull: false
       },
       row: {
