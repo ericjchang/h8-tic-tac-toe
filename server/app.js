@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 const server = http.createServer(app);
 const io = require('socket.io')(server)
 const { Room } = require('./models/index');
-const checkBoard = require('./helpers/checkBoard.js');
+const boardTracker = require('./helpers/boardTracker.js');
 
 app.use(cors());
 app.use(express.urlencoded({extended: false}));
@@ -54,7 +54,7 @@ io.on('connection', (socket) => {
     socket.on('add-move', (data) => {
         let payload;
         moves[data.index] = 'cross'
-        if(checkBoard(moves)) {
+        if(boardTracker(moves)) {
             payload = {
                 winner: data.name,
                 moves
