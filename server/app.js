@@ -9,12 +9,11 @@ const cors = require('cors');
 const http = require('http');
 const routes = require("./routes");
 const errorHandler = require("./middlewares/errorhandler.js");
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 const server = http.createServer(app);
 const io = require('socket.io')(server)
-// const Controller = require('./controllers/controlleruser');
-const { User } = require('./models/index');
-const checkBoard = require('./helpers/checkBoard.js');
+const { Room } = require('./models/index');
+const boardTracker = require('./helpers/boardTracker.js');
 
 app.use(cors());
 app.use(express.urlencoded({extended: false}));
@@ -55,7 +54,7 @@ io.on('connection', (socket) => {
     socket.on('add-move', (data) => {
         let payload;
         moves[data.index] = 'cross'
-        if(checkBoard(moves)) {
+        if(boardTracker(moves)) {
             payload = {
                 winner: data.name,
                 moves
@@ -82,24 +81,4 @@ io.on('connection', (socket) => {
 server.listen(PORT, () => {
     console.log(`listening on port: ${PORT}`)
 })
-const app = require('express')();
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
 
-
-io.on('connection', (socket) => {
-    console.log('A user connected')
-
-
-    //emitter
-    //listener
-
-
-})
-app.get('/', (req, res) => {
-  res.send('<h1>Hello world</h1>');
-});
-
-http.listen(8000, () => {
-  console.log('listening on *:8000');
-})
