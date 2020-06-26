@@ -4,7 +4,6 @@
             <div class='logo'>
                 <img src="../assets/FAVPNG_logo-tic-tac-ultimate-tic-tac-toe-font_cie130TR.png" alt="" style="width:65%">
             </div>
-            <!-- <p style="text-align: center;" class="lead">This is a simple hero unit</p> -->
             <h5 class='text'>Lets Play</h5>
             <hr class="my-3">
             <div>
@@ -37,11 +36,6 @@ export default {
 </script>
 
 <style scoped>
-.landingPage {
-    display: flex;
-    justify-content: space-evenly;
-}
-
 .logo, form, button{
     display: flex;
     justify-content: center;
