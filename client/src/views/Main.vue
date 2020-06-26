@@ -23,44 +23,44 @@
       </header>
 
       <main class="board" v-if="!winner">
-        <div v-if="pos1 === 'A'" class="cell circle"></div>
-        <div v-else-if="pos1 === 'B'" class="cell cross"></div>
+        <div v-if="pos1 === 'O'" class="cell circle"></div>
+        <div v-else-if="pos1 === 'X'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(1)"></div>
 
-        <div v-if="pos2 === 'A'" class="cell circle"></div>
-        <div v-else-if="pos2 === 'B'" class="cell cross"></div>
+        <div v-if="pos2 === 'O'" class="cell circle"></div>
+        <div v-else-if="pos2 === 'X'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(2)"></div>
 
-        <div v-if="pos3 === 'A'" class="cell circle"></div>
-        <div v-else-if="pos3 === 'B'" class="cell cross"></div>
+        <div v-if="pos3 === 'O'" class="cell circle"></div>
+        <div v-else-if="pos3 === 'X'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(3)"></div>
 
-        <div v-if="pos4 === 'A'" class="cell circle"></div>
-        <div v-else-if="pos4 === 'B'" class="cell cross"></div>
+        <div v-if="pos4 === 'O'" class="cell circle"></div>
+        <div v-else-if="pos4 === 'X'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(4)"></div>
 
-        <div v-if="pos5 === 'A'" class="cell circle"></div>
-        <div v-else-if="pos5 === 'B'" class="cell cross"></div>
+        <div v-if="pos5 === 'O'" class="cell circle"></div>
+        <div v-else-if="pos5 === 'X'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(5)"></div>
 
-        <div v-if="pos6 === 'A'" class="cell circle"></div>
-        <div v-else-if="pos6 === 'B'" class="cell cross"></div>
+        <div v-if="pos6 === 'O'" class="cell circle"></div>
+        <div v-else-if="pos6 === 'X'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(6)"></div>
 
-        <div v-if="pos7 === 'A'" class="cell circle"></div>
-        <div v-else-if="pos7 === 'B'" class="cell cross"></div>
+        <div v-if="pos7 === 'O'" class="cell circle"></div>
+        <div v-else-if="pos7 === 'X'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(7)"></div>
 
-        <div v-if="pos8 === 'A'" class="cell circle"></div>
-        <div v-else-if="pos8 === 'B'" class="cell cross"></div>
+        <div v-if="pos8 === 'O'" class="cell circle"></div>
+        <div v-else-if="pos8 === 'X'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(8)"></div>
 
-        <div v-if="pos9 === 'A'" class="cell circle"></div>
-        <div v-else-if="pos9 === 'B'" class="cell cross"></div>
+        <div v-if="pos9 === 'O'" class="cell circle"></div>
+        <div v-else-if="pos9 === 'X'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(9)"></div>
       </main>
 
-      <h1 v-else-if="winner">{{ winner }} Win!</h1>
+      <h1 v-else-if="winner">{{ winner }}</h1>
     </div>
     <div class="game-log-message-box">
       <p>{{ msg }}</p>

@@ -81,61 +81,61 @@ export default new Vuex.Store({
 
           for (const i in p1) {
             if (p1[i] === '1') {
-              context.commit('SET_POS_1', 'A');
+              context.commit('SET_POS_1', 'O');
             }
             if (p1[i] === '2') {
-              context.commit('SET_POS_2', 'A');
+              context.commit('SET_POS_2', 'O');
             }
             if (p1[i] === '3') {
-              context.commit('SET_POS_3', 'A');
+              context.commit('SET_POS_3', 'O');
             }
             if (p1[i] === '4') {
-              context.commit('SET_POS_4', 'A');
+              context.commit('SET_POS_4', 'O');
             }
             if (p1[i] === '5') {
-              context.commit('SET_POS_5', 'A');
+              context.commit('SET_POS_5', 'O');
             }
             if (p1[i] === '6') {
-              context.commit('SET_POS_6', 'A');
+              context.commit('SET_POS_6', 'O');
             }
             if (p1[i] === '7') {
-              context.commit('SET_POS_7', 'A');
+              context.commit('SET_POS_7', 'O');
             }
             if (p1[i] === '8') {
-              context.commit('SET_POS_8', 'A');
+              context.commit('SET_POS_8', 'O');
             }
             if (p1[i] === '9') {
-              context.commit('SET_POS_9', 'A');
+              context.commit('SET_POS_9', 'O');
             }
           }
 
-          for (const k in p2) {
-            if (p2[k] === '1') {
-              context.commit('SET_POS_1', 'B');
+          for (const j in p2) {
+            if (p2[j] === '1') {
+              context.commit('SET_POS_1', 'X');
             }
-            if (p2[k] === '2') {
-              context.commit('SET_POS_2', 'B');
+            if (p2[j] === '2') {
+              context.commit('SET_POS_2', 'X');
             }
-            if (p2[k] === '3') {
-              context.commit('SET_POS_3', 'B');
+            if (p2[j] === '3') {
+              context.commit('SET_POS_3', 'X');
             }
-            if (p2[k] === '4') {
-              context.commit('SET_POS_4', 'B');
+            if (p2[j] === '4') {
+              context.commit('SET_POS_4', 'X');
             }
-            if (p2[k] === '5') {
-              context.commit('SET_POS_5', 'B');
+            if (p2[j] === '5') {
+              context.commit('SET_POS_5', 'X');
             }
-            if (p2[k] === '6') {
-              context.commit('SET_POS_6', 'B');
+            if (p2[j] === '6') {
+              context.commit('SET_POS_6', 'X');
             }
-            if (p2[k] === '7') {
-              context.commit('SET_POS_7', 'B');
+            if (p2[j] === '7') {
+              context.commit('SET_POS_7', 'X');
             }
-            if (p2[k] === '8') {
-              context.commit('SET_POS_8', 'B');
+            if (p2[j] === '8') {
+              context.commit('SET_POS_8', 'X');
             }
-            if (p2[k] === '9') {
-              context.commit('SET_POS_9', 'B');
+            if (p2[j] === '9') {
+              context.commit('SET_POS_9', 'X');
             }
           }
 
@@ -164,11 +164,9 @@ export default new Vuex.Store({
                 p1[1] === winningConditions[l][1] &&
                 p1[2] === winningConditions[l][2]
               ) {
-                console.log('WINNER');
-                context.commit('SET_WINNER', result.data.users[0].username);
+                context.commit('SET_WINNER', `${result.data.users[0].username} Win !`);
                 if (this.winner) {
                   setTimeout(() => {
-                    console.log('disini');
                     localStorage.clear();
                   }, 5000);
                 }
@@ -178,16 +176,20 @@ export default new Vuex.Store({
 
           if (p2.length > 2) {
             p2.slice(Math.max(p2.length - 2, 1));
-            console.log('sort 3 terakhir', p1);
+            console.log('sort 3 terakhir', p2);
             for (let l = 0; l <= 7; l++) {
               if (
                 p2[0] === winningConditions[l][0] &&
                 p2[1] === winningConditions[l][1] &&
                 p2[2] === winningConditions[l][2]
               ) {
-                context.commit('SET_WINNER', result.data.users[1].username);
+                context.commit('SET_WINNER', `${result.data.users[1].username} Win !`);
               }
             }
+          }
+
+          if (p1.length + p2.length === 9) {
+            context.commit('SET_WINNER', 'DRAW!');
           }
         })
         .catch(err => {
