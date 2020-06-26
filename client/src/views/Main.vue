@@ -8,7 +8,7 @@
         <p class="message" v-else-if="userIndex % 2 !== 0 && userid % 2 !== 0">Your turn</p>
         <p class="message" v-else="">Enemy Turn</p>
 
-        <button class="play-btn" @click.prevent="play">play</button>
+        <button class="play-btn text-center" @click.prevent="play">restart</button>
       </header>
 
       <main class="board" v-if="!winner">
@@ -52,40 +52,47 @@
       <h1 v-else-if="winner">{{ winner }}</h1>
     </div>
 
-    <div class="game-log-message-box">
-      <p>{{ msg }}</p>
-      <div style="display: flex; flex-direction: column-reverse;">
-        <div class="game-log-chat-messages">
-          <div v-for="message in chatMessages" :key="message.name">
-            <p>
-              <b>{{ message.name }}</b>
-            </p>
-            <p>{{ message.message }}</p>
+    <div class="col-4">
+      <div class="game-log-message-box">
+        <p>{{ msg }}</p>
+        <div style="display: flex; flex-direction: column-reverse;">
+          <div class="game-log-chat-messages">
+            <div v-for="message in chatMessages" :key="message.name">
+              <p>
+                <b style="margin-left:8px">{{ message.name }} :</b>
+              </p>
+              <p style="margin-left:12px">{{ message.message }}</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="message-box mt-2">
+            <form @submit.prevent="sendMessage">
+              <h4>Enter chat message</h4>
+              <textarea
+                class="form-control game-log-chat-messages"
+                v-model="message"
+                id="chat-message"
+                rows="4"
+                autofocus
+              >
+              </textarea>
+              <br />
+              <button type="submit" class="submit-button btn-md">Submit!</button>
+            </form>
           </div>
         </div>
       </div>
-    <div>
-      <div class="message-box">
-        <h3>Enter chat message</h3>
-        <form @submit.prevent="sendMessage">
-          <label for="chat-message"></label>
-          <textarea v-model="message" id="chat-message" rows="4" cols="45" autofocus>
-                Enter your message here...
-              </textarea
-          ><br />
-          <button type="submit" class="submit-button btn-md">Submit!</button>
-        </form>
-      </div>
     </div>
-    </div>
-    
   </div>
 </template>
 
 <script>
 import io from 'socket.io-client';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { mapState, mapActions } from 'vuex';
+
 export default {
   name: 'chatBox',
   data() {
@@ -112,6 +119,21 @@ export default {
       'pos9',
       'winner',
     ]),
+  },
+  watch: {
+    winner: (newVal, oldVal) => {
+      if (newVal === 'DRAW!') {
+        const audio = new Audio('https://www.fesliyanstudios.com/play-mp3/6579');
+        audio.play();
+        Swal.fire(`${newVal}`);
+      } else {
+        const audio = new Audio(
+          'https://www.fesliyanstudios.com/musicfiles/2016-08-23_-_News_Opening_5_-_David_Fesliyan.mp3'
+        );
+        audio.play();
+        Swal.fire(`${newVal}`);
+      }
+    },
   },
   methods: {
     ...mapActions(['refreshPosition', 'resetData']),
@@ -142,7 +164,6 @@ export default {
       //   });
     },
     choose(pick) {
-      console.log(pick);
       if (this.userIndex % 2 === 0 && +localStorage.userid % 2 === 0) {
         axios({
           method: 'PUT',
@@ -189,14 +210,8 @@ export default {
   created() {
     // method from Vuex
     this.refreshPosition();
-    if (this.userIndex % 2 === 0) {
-      console.log('GILIRAN PEMAIN GANJIL');
-    } else {
-      console.log('GILIRAN PEMAIN GENAP');
-    }
 
     io.connect('http://localhost:3000').on('send-message', data => {
-      console.log('fetch chat success');
       this.chatMessages = data;
     });
 
@@ -222,6 +237,7 @@ export default {
   height: 100vh;
   font-family: 'Balsamiq Sans', cursive;
 }
+
 .chatBox {
   border: 1px;
   height: 300px;
@@ -234,9 +250,9 @@ export default {
   color: white;
   border-width: 0px;
   padding: 10px 25px;
-  margin: 10px;
   border-radius: 4px;
 }
+
 .game-log-message-box {
   height: 80%;
   background-color: width;
@@ -245,11 +261,11 @@ export default {
   padding-top: 95 px;
 }
 
-.message-box{
+.message-box {
   padding-top: 10px;
 }
 
-#chat-message{
+#chat-message {
   background-color: antiquewhite;
 }
 
@@ -269,11 +285,10 @@ export default {
   justify-content: space-between;
 }
 
-
 .game-log-chat-messages {
-  border: solid black 1px;
+  border: solid 2px;
+  border-color: #bdbdbd;
   height: 195px;
-  width: 580px;
   text-overflow: ellipsis;
   overflow: scroll;
   overflow-x: hidden;
@@ -291,16 +306,12 @@ export default {
 }
 
 html {
-  font-size: 62.5%;
+  font-size: 80%;
 }
 
 body {
-  font-size: 1.6rem;
   margin: 0;
-  height: 100vh;
   background: hsl(185, 87%, 32%);
-  font-family: 'Montserrat', 'Arial', sans-serif;
-  letter-spacing: 1px;
 }
 
 .drawer {
@@ -394,30 +405,28 @@ body {
   font-weight: bold;
 }
 
-.footer{
+.footer {
   display: flex;
-  justify-content: center ;
+  justify-content: center;
 }
 
 .play-btn {
-  /* position: absolute; */
   top: 10px;
   left: 100%;
   outline: none;
   border: none;
   cursor: pointer;
-  margin-left: 75px;
+  margin-left: 100px;
 
-  background:  hsl(202, 75%, 43%);
-  padding: 1rem 1.5rem;
+  background: hsl(202, 75%, 43%);
+  padding: 1rem 2.5rem;
 
   font-size: 2.4rem;
   font-weight: bold;
   color: rgb(232, 231, 241);
-  border-radius: 0 0 0.2rem 0.2rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  border: 1px solid hsla(300, 3%, 17%, 1);
-  transform: translate(-50%, 0);
+  border-radius: 10px;
+  transform: translate(-25%, 0);
   transition: transform 200ms ease-out;
 }
 
