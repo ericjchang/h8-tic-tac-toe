@@ -1,15 +1,14 @@
 const router = require('express').Router()
-const gameController = require('../controller/gameController')
+const GameController = require('../controller/gameController')
 
 router.get('/', (req, res) => {
     res.status(200).json({
-        message: 'Welcome'
+        message: 'Welcome to Tic-Tac-Toe'
     })
 })
-router.post('/signup', gameController.signup)
-router.post('/data', gameController.findData)
-router.put('/data', gameController.updateData)
-router.delete('/data', gameController.delete)
-
+router.post('/signup', GameController.signup)
+router.post('/data', GameController.findData)
+router.put('/data', GameController.updateData)
+router.delete('/data', GameController.delete)
 
 module.exports = router

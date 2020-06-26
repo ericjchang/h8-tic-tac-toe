@@ -1,15 +1,15 @@
 const {Room} = require('../models');
 
-class RoomController {
+class GameController {
     static signup(req, res, next) {
         const row = '';
         const column = '';
         Room.count()
         .then(result => {
             let roomNumber = Math.floor(result/2)+1
-            let {name} = req.body;
+            let {username} = req.body;
             Room.create({
-                name,
+                username,
                 room: roomNumber,
                 row,
                 column,
@@ -17,12 +17,12 @@ class RoomController {
             .then(data => {
                 res.status(201).json({
                     id: data.id,
-                    name : data.name,
+                    username : data.username,
                     room: data.room
                 })
                 .catch(err => {
                     return next({
-                        name: 'InternalServerError',
+                        username: 'InternalServerError',
                         errors : [{message : err}]
                     })
                 })
@@ -51,10 +51,10 @@ class RoomController {
     }
 
     static updateData(req, res, next) {
-        const {name, room} = req.headers
+        const {username, room} = req.headers
         Room.findOne({
             where: {
-                name,
+                username,
                 room
             }
         })
@@ -71,7 +71,7 @@ class RoomController {
             {
                 where: {
                     room,
-                    name
+                    username
                 }
             })
             .then(result => {
@@ -104,9 +104,7 @@ class RoomController {
             res.status(500).json({status:500, error:err})
         })
     }
-
-
 }
 
 
-module.exports = RoomController
+module.exports = GameController;

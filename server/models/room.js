@@ -4,25 +4,17 @@ module.exports = (sequelize, DataTypes) => {
   class Room extends Model {}
 
   Room.init({
-    name: {
+    username: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: {
-        args: true,
-        msg: 'Room name already exists'
-      },
       validate: {
-        len: {
-          args: [4, 12],
-          msg: 'Room name must be between 4 and 12 characters'
-        },
         notNull: {
           args: true,
-          msg: 'Room is required'
+          msg: 'Username is required'
         },
         notEmpty: {
           args: true,
-          msg: 'Room name cannot be empty'
+          msg: 'Username name cannot be empty'
         }
       }
     },
@@ -32,11 +24,11 @@ module.exports = (sequelize, DataTypes) => {
       validate : {
         notNull: {
           args: true,
-          msg: "Username is required"
+          msg: "Room is required"
         },
         notEmpty: {
           args: true,
-          msg: "Username is required"
+          msg: "Room cannot be empty"
         }
       }
     },
