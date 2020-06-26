@@ -58,26 +58,6 @@
       </main>
 
       <h1 v-else-if="winner">{{ winner }} Win!</h1>
-
-      <footer class="scores">
-        <div>
-          <span></span>
-          <ul>
-            <li></li>
-            <li></li>
-            <li></li>
-          </ul>
-        </div>
-
-        <div>
-          <span></span>
-          <ul>
-            <li></li>
-            <li></li>
-            <li></li>
-          </ul>
-        </div>
-      </footer>
     </div>
     <div class="game-log-message-box">
       <p>{{ msg }}</p>
@@ -97,46 +77,46 @@
 </template>
 
 <script>
-import io from "socket.io-client";
-import axios from "axios";
-import { mapState, mapActions } from "vuex";
+import io from 'socket.io-client';
+import axios from 'axios';
+import { mapState, mapActions } from 'vuex';
 export default {
-  name: "chatBox",
+  name: 'chatBox',
   data() {
     return {
-      message: "",
-      msg: "",
+      message: '',
+      msg: '',
       chatMessages: [],
-      userpick: "",
-      islogin: false
+      userpick: '',
+      islogin: false,
     };
   },
   computed: {
     ...mapState([
-      "userIndex",
-      "pos1",
-      "pos2",
-      "pos3",
-      "pos4",
-      "pos5",
-      "pos6",
-      "pos7",
-      "pos8",
-      "pos9",
-      "winner"
-    ])
+      'userIndex',
+      'pos1',
+      'pos2',
+      'pos3',
+      'pos4',
+      'pos5',
+      'pos6',
+      'pos7',
+      'pos8',
+      'pos9',
+      'winner',
+    ]),
   },
   methods: {
-    ...mapActions(["refreshPosition"]),
+    ...mapActions(['refreshPosition']),
     sendMessage() {
-      console.log("chat message submitted");
+      console.log('chat message submitted');
       const messageData = {
         name: localStorage.username,
-        message: this.message
+        message: this.message,
       };
-      var socket = io.connect("http://localhost:3000");
-      socket.emit("send-message", messageData);
-      this.message = "";
+      var socket = io.connect('http://localhost:3000');
+      socket.emit('send-message', messageData);
+      this.message = '';
     },
     play() {
       localStorage.clear();
@@ -148,64 +128,64 @@ export default {
     choose(pick) {
       console.log(pick);
       if (this.userIndex % 2 === 0) {
-        console.log("masuk genap");
+        console.log('masuk genap');
         axios({
-          method: "PUT",
-          url: "http://localhost:3000/data",
+          method: 'PUT',
+          url: 'http://localhost:3000/data',
           headers: {
             room: localStorage.room,
-            username: localStorage.username
+            username: localStorage.username,
           },
           data: {
-            chose: pick
-          }
+            chose: pick,
+          },
         })
           .then(result => {
             this.refreshPosition();
-            var socket = io.connect("http://localhost:3000");
-            socket.emit("refresh");
+            var socket = io.connect('http://localhost:3000');
+            socket.emit('refresh');
           })
           .catch(err => {
             console.log(err);
           });
       } else if (this.userIndex % 2 !== 0) {
         axios({
-          method: "PUT",
-          url: "http://localhost:3000/data",
+          method: 'PUT',
+          url: 'http://localhost:3000/data',
           headers: {
             room: localStorage.room,
-            username: localStorage.username
+            username: localStorage.username,
           },
           data: {
-            chose: pick
-          }
+            chose: pick,
+          },
         })
           .then(result => {
             this.refreshPosition();
-            var socket = io.connect("http://localhost:3000");
-            socket.emit("refresh");
+            var socket = io.connect('http://localhost:3000');
+            socket.emit('refresh');
           })
           .catch(err => {
             console.log(err);
           });
       }
-    }
+    },
   },
   created() {
     // method from Vuex
     this.refreshPosition();
     if (this.userIndex % 2 === 0) {
-      console.log("GILIRAN PEMAIN GANJIL");
+      console.log('GILIRAN PEMAIN GANJIL');
     } else {
-      console.log("GILIRAN PEMAIN GENAP");
+      console.log('GILIRAN PEMAIN GENAP');
     }
 
-    io.connect("http://localhost:3000").on("send-message", data => {
-      console.log("fetch chat success");
+    io.connect('http://localhost:3000').on('send-message', data => {
+      console.log('fetch chat success');
       this.chatMessages = data;
     });
 
-    io.connect("http://localhost:3000").on("refresh_client", () => {
+    io.connect('http://localhost:3000').on('refresh_client', () => {
       this.refreshPosition();
     });
 
@@ -213,9 +193,9 @@ export default {
       this.islogin = true;
     } else {
       this.islogin = false;
-      this.$router.push("/");
+      this.$router.push('/');
     }
-  }
+  },
 };
 </script>
 
@@ -291,7 +271,7 @@ body {
   margin: 0;
   height: 100vh;
   background: hsl(300, 15%, 36%);
-  font-family: "Montserrat", "Arial", sans-serif;
+  font-family: 'Montserrat', 'Arial', sans-serif;
   letter-spacing: 1px;
 }
 
@@ -326,7 +306,7 @@ body {
 .circle::after,
 .cross::before,
 .cross::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 50%;
   left: 50%;
@@ -415,54 +395,6 @@ header {
   margin: 0 auto 20px;
 }
 
-.scores {
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-  max-width: 320px;
-  margin: 2rem auto 0;
-  border-top: 2px solid hsla(300, 15%, 20%, 1);
-  padding-top: 2rem;
-  opacity: 1;
-  transform: translate(0, 0);
-  transition: all 200ms 75ms ease-out;
-}
-
-.scores.hide {
-  display: flex;
-  opacity: 0;
-  transform: translate(0, 20%);
-}
-
-.scores div {
-  flex: 1;
-}
-
-.scores span {
-  display: block;
-  color: hsla(300, 15%, 20%, 1);
-}
-
-.scores ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: inline-block;
-}
-
-.scores li {
-  width: 10px;
-  height: 10px;
-  border: 2px solid hsla(300, 15%, 20%, 1);
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.scores li.won {
-  background: hsla(300, 15%, 53%, 1);
-  animation: win 300ms;
-}
-
 @keyframes win {
   0% {
     transform: scale(1);
@@ -477,7 +409,7 @@ header {
 
 .scores::after {
   display: none;
-  content: "vs";
+  content: 'vs';
   position: absolute;
   left: 50%;
   top: 50%;
