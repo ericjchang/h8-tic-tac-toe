@@ -242,7 +242,7 @@ export default {
   background-color: width;
   width: 80%;
   text-align: left;
-  padding-top: 95px;
+  padding-top: 95 px;
 }
 
 .message-box{
