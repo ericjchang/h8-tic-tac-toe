@@ -4,51 +4,52 @@
 
     <div class="drawer">
       <header>
-        <p class="message">Tic Tac Toe</p>
+        <p class="message" v-if="userIndex % 2 === 0 && userid % 2 === 0">Your turn</p>
+        <p class="message" v-else-if="userIndex % 2 !== 0 && userid % 2 !== 0">Your turn</p>
+        <p class="message" v-else="">Enemy Turn</p>
+
+        <button class="play-btn" @click.prevent="play">play</button>
       </header>
 
       <main class="board" v-if="!winner">
-        <div v-if="pos1 === 'A'" class="cell circle"></div>
-        <div v-else-if="pos1 === 'B'" class="cell cross"></div>
+        <div v-if="pos1 === 'O'" class="cell circle"></div>
+        <div v-else-if="pos1 === 'X'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(1)"></div>
 
-        <div v-if="pos2 === 'A'" class="cell circle"></div>
-        <div v-else-if="pos2 === 'B'" class="cell cross"></div>
+        <div v-if="pos2 === 'O'" class="cell circle"></div>
+        <div v-else-if="pos2 === 'X'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(2)"></div>
 
-        <div v-if="pos3 === 'A'" class="cell circle"></div>
-        <div v-else-if="pos3 === 'B'" class="cell cross"></div>
+        <div v-if="pos3 === 'O'" class="cell circle"></div>
+        <div v-else-if="pos3 === 'X'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(3)"></div>
 
-        <div v-if="pos4 === 'A'" class="cell circle"></div>
-        <div v-else-if="pos4 === 'B'" class="cell cross"></div>
+        <div v-if="pos4 === 'O'" class="cell circle"></div>
+        <div v-else-if="pos4 === 'X'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(4)"></div>
 
-        <div v-if="pos5 === 'A'" class="cell circle"></div>
-        <div v-else-if="pos5 === 'B'" class="cell cross"></div>
+        <div v-if="pos5 === 'O'" class="cell circle"></div>
+        <div v-else-if="pos5 === 'X'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(5)"></div>
 
-        <div v-if="pos6 === 'A'" class="cell circle"></div>
-        <div v-else-if="pos6 === 'B'" class="cell cross"></div>
+        <div v-if="pos6 === 'O'" class="cell circle"></div>
+        <div v-else-if="pos6 === 'X'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(6)"></div>
 
-        <div v-if="pos7 === 'A'" class="cell circle"></div>
-        <div v-else-if="pos7 === 'B'" class="cell cross"></div>
+        <div v-if="pos7 === 'O'" class="cell circle"></div>
+        <div v-else-if="pos7 === 'X'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(7)"></div>
 
-        <div v-if="pos8 === 'A'" class="cell circle"></div>
-        <div v-else-if="pos8 === 'B'" class="cell cross"></div>
+        <div v-if="pos8 === 'O'" class="cell circle"></div>
+        <div v-else-if="pos8 === 'X'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(8)"></div>
 
-        <div v-if="pos9 === 'A'" class="cell circle"></div>
-        <div v-else-if="pos9 === 'B'" class="cell cross"></div>
+        <div v-if="pos9 === 'O'" class="cell circle"></div>
+        <div v-else-if="pos9 === 'X'" class="cell cross"></div>
         <div v-else class="cell" @click="choose(9)"></div>
       </main>
 
-      <h1 v-else-if="winner" >{{ winner }} Win!</h1>
-
-      <button class="play-btn" @click.prevent="play">Restart</button>
-
+      <h1 v-else-if="winner">{{ winner }}</h1>
     </div>
 
     <div class="game-log-message-box">
@@ -94,6 +95,7 @@ export default {
       chatMessages: [],
       userpick: '',
       islogin: false,
+      userid: localStorage.userid,
     };
   },
   computed: {
@@ -112,9 +114,8 @@ export default {
     ]),
   },
   methods: {
-    ...mapActions(['refreshPosition']),
+    ...mapActions(['refreshPosition', 'resetData']),
     sendMessage() {
-      console.log('chat message submitted');
       const messageData = {
         name: localStorage.username,
         message: this.message,
@@ -125,15 +126,24 @@ export default {
     },
     play() {
       localStorage.clear();
+      this.resetData();
+      this.$router.push('/');
 
-      /*
-        TODO : Axios method delete room 
-       */
+      // Axios({
+      //   method: 'DELETE',
+      //   url: 'http://localhost:3000/',
+      //   data: { id: localStorage.userid },
+      // })
+      //   .then(result => {
+      //     //
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   });
     },
     choose(pick) {
       console.log(pick);
-      if (this.userIndex % 2 === 0) {
-        console.log('masuk genap');
+      if (this.userIndex % 2 === 0 && +localStorage.userid % 2 === 0) {
         axios({
           method: 'PUT',
           url: 'http://localhost:3000/data',
@@ -153,7 +163,7 @@ export default {
           .catch(err => {
             console.log(err);
           });
-      } else if (this.userIndex % 2 !== 0) {
+      } else if (this.userIndex % 2 !== 0 && +localStorage.userid % 2 !== 0) {
         axios({
           method: 'PUT',
           url: 'http://localhost:3000/data',
