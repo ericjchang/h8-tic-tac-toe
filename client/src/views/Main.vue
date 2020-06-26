@@ -15,7 +15,10 @@
 
     <div class="drawer">
       <header>
-        <p class="message">Tic Tac Toe</p>
+        <p class="message" v-if="userIndex % 2 === 0 && userid % 2 === 0">Your turn</p>
+        <p class="message" v-else-if="userIndex % 2 !== 0 && userid % 2 !== 0">Your turn</p>
+        <p class="message" v-else="">Enemy Turn</p>
+
         <button class="play-btn" @click.prevent="play">play</button>
       </header>
 
@@ -89,6 +92,7 @@ export default {
       chatMessages: [],
       userpick: '',
       islogin: false,
+      userid: localStorage.userid,
     };
   },
   computed: {
@@ -107,9 +111,8 @@ export default {
     ]),
   },
   methods: {
-    ...mapActions(['refreshPosition']),
+    ...mapActions(['refreshPosition', 'resetData']),
     sendMessage() {
-      console.log('chat message submitted');
       const messageData = {
         name: localStorage.username,
         message: this.message,
@@ -120,15 +123,24 @@ export default {
     },
     play() {
       localStorage.clear();
+      this.resetData();
+      this.$router.push('/');
 
-      /*
-       TODO : Axios method delete room 
-       */
+      // Axios({
+      //   method: 'DELETE',
+      //   url: 'http://localhost:3000/',
+      //   data: { id: localStorage.userid },
+      // })
+      //   .then(result => {
+      //     //
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   });
     },
     choose(pick) {
       console.log(pick);
-      if (this.userIndex % 2 === 0) {
-        console.log('masuk genap');
+      if (this.userIndex % 2 === 0 && +localStorage.userid % 2 === 0) {
         axios({
           method: 'PUT',
           url: 'http://localhost:3000/data',
@@ -148,7 +160,7 @@ export default {
           .catch(err => {
             console.log(err);
           });
-      } else if (this.userIndex % 2 !== 0) {
+      } else if (this.userIndex % 2 !== 0 && +localStorage.userid % 2 !== 0) {
         axios({
           method: 'PUT',
           url: 'http://localhost:3000/data',
