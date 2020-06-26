@@ -1,16 +1,5 @@
 <template>
   <div class="contain">
-    <div class="game-log-message-box">
-      <h3>Enter chat message</h3>
-      <form @submit.prevent="sendMessage">
-        <label for="chat-message"></label>
-        <textarea v-model="message" id="chat-message" rows="4" cols="45" autofocus>
-              Enter your message here...
-            </textarea
-        ><br />
-        <button type="submit" class="submit-button">Submit!</button>
-      </form>
-    </div>
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" />
 
     <div class="drawer">
@@ -62,9 +51,9 @@
 
       <h1 v-else-if="winner">{{ winner }}</h1>
     </div>
+
     <div class="game-log-message-box">
       <p>{{ msg }}</p>
-      <div id="separatorLine"></div>
       <div style="display: flex; flex-direction: column-reverse;">
         <div class="game-log-chat-messages">
           <div v-for="message in chatMessages" :key="message.name">
@@ -75,7 +64,21 @@
           </div>
         </div>
       </div>
+    <div>
+      <div class="message-box">
+        <h3>Enter chat message</h3>
+        <form @submit.prevent="sendMessage">
+          <label for="chat-message"></label>
+          <textarea v-model="message" id="chat-message" rows="4" cols="45" autofocus>
+                Enter your message here...
+              </textarea
+          ><br />
+          <button type="submit" class="submit-button btn-md">Submit!</button>
+        </form>
+      </div>
     </div>
+    </div>
+    
   </div>
 </template>
 
@@ -215,17 +218,19 @@ export default {
 .contain {
   display: flex;
   justify-content: space-evenly;
+  background-image: url('https://images.unsplash.com/photo-1592330732588-85affb208a56?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');
+  height: 100vh;
+  font-family: 'Balsamiq Sans', cursive;
 }
 .chatBox {
   border: 1px;
   height: 300px;
   border-style: solid;
   border-color: #0d0e0d;
-  background-color: #ecf0f1;
 }
 
 .submit-button {
-  background-color: #2ecc71;
+  background-color: hsl(202, 75%, 43%);
   color: white;
   border-width: 0px;
   padding: 10px 25px;
@@ -237,6 +242,15 @@ export default {
   background-color: width;
   width: 80%;
   text-align: left;
+  padding-top: 95 px;
+}
+
+.message-box{
+  padding-top: 10px;
+}
+
+#chat-message{
+  background-color: antiquewhite;
 }
 
 .game-log-box {
@@ -255,13 +269,15 @@ export default {
   justify-content: space-between;
 }
 
+
 .game-log-chat-messages {
   border: solid black 1px;
-  height: 300px;
-  width: 100%;
+  height: 195px;
+  width: 580px;
   text-overflow: ellipsis;
   overflow: scroll;
   overflow-x: hidden;
+  background-color: antiquewhite;
 }
 
 .textarea {
@@ -282,7 +298,7 @@ body {
   font-size: 1.6rem;
   margin: 0;
   height: 100vh;
-  background: hsl(300, 15%, 36%);
+  background: hsl(185, 87%, 32%);
   font-family: 'Montserrat', 'Arial', sans-serif;
   letter-spacing: 1px;
 }
@@ -290,11 +306,14 @@ body {
 .drawer {
   width: 80%;
   margin: 0 auto;
-  padding-top: 60px;
+  padding-top: 25px;
+  display: flexbox;
+  justify-items: center;
 }
 
 .board {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   width: 320px;
   height: 320px;
@@ -307,7 +326,7 @@ body {
   height: 90px;
   margin: 5px;
   border-radius: 0.3em;
-  background: hsl(300, 15%, 33%);
+  background: hsl(202, 75%, 43%);
 }
 
 .cell.circle,
@@ -371,22 +390,30 @@ body {
 .message {
   text-align: center;
   color: hsla(300, 15%, 20%, 1);
-  font-size: 2rem;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.footer{
+  display: flex;
+  justify-content: center ;
 }
 
 .play-btn {
-  position: absolute;
+  /* position: absolute; */
   top: 10px;
-  left: 50%;
+  left: 100%;
   outline: none;
   border: none;
   cursor: pointer;
+  margin-left: 75px;
 
-  background: hsl(300, 3%, 18%);
+  background:  hsl(202, 75%, 43%);
   padding: 1rem 1.5rem;
 
   font-size: 2.4rem;
-  color: hsla(300, 15%, 44%, 1);
+  font-weight: bold;
+  color: rgb(232, 231, 241);
   border-radius: 0 0 0.2rem 0.2rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   border: 1px solid hsla(300, 3%, 17%, 1);
@@ -395,7 +422,7 @@ body {
 }
 
 .play-btn:hover {
-  background: hsl(300, 3%, 20%);
+  background: hsl(300, 37%, 7%);
 }
 
 .play-btn.hide {
