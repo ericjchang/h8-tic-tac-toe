@@ -152,11 +152,10 @@ export default new Vuex.Store({
 
           p1.sort();
           p2.sort();
-          console.log('sort', p1);
 
           if (p1.length > 2) {
             p1.slice(Math.max(p1.length - 2, 1));
-            console.log('sort 3 terakhir', p1);
+
             for (let l = 0; l <= 7; l++) {
               console.log(winningConditions[l][0]);
               if (
@@ -176,7 +175,6 @@ export default new Vuex.Store({
 
           if (p2.length > 2) {
             p2.slice(Math.max(p2.length - 2, 1));
-            console.log('sort 3 terakhir', p2);
             for (let l = 0; l <= 7; l++) {
               if (
                 p2[0] === winningConditions[l][0] &&
